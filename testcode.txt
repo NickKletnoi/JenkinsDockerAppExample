@@ -1,0 +1,83 @@
+cloud_user
+%7Ibcymeev
+
+https://363790852525.signin.aws.amazon.com/console?region=us-east-1
+
+AKIAVJM474GW2YVORPL2
+TK4nxbGIgMEj7JAFLW9cAN894o0qBtB0kSW0J4AK
+
+
+
+
+1. Download the pem file
+2. Go to the location of the pem file
+3. Right clicke >> Security >> Advanced >> 
+   - Remove Users
+   - remove inheritance
+   - add principal (for that go to a new terminal and type whoami and that is the user that you have to add)
+   
+ssh -i "C:\Users\kletn\Downloads\mykey.pem" ubuntu@ec2-44-202-161-159.compute-1.amazonaws.com   
+ 
+--- After you successfully SSH-ed into the Linux machine --- : 
+
+4. sudo apt update
+5. sudo apt install openjdk-8-jdk 
+
+(import GPG keys of the Jenkins repo ) 
+6. wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+(add Jenkins repo to the system:)
+7.sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/etc/apt/sources.list.d/jenkins.list'
+--------------------------------------------------------------------------------
+sudo add-apt-repository universe
+sudo apt-get update
+sudo apt-get upgrade
+
+9. sudo apt install jenkins
+------------------------------------------------------------------------------
+----- alternattive below -
+--------------------------------------------------------------------------------
+wget https://get.jenkins.io/war-stable/2.263.4/jenkins.war
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.58/bin/apache-tomcat-9.0.58.tar.gz
+tar -zxvf apache-tomcat-9.0.58.tar.gz
+mv jenkins.war apache-tomcat-9.0.58/webapps/
+cd apache-tomcat-9.0.58/bin/
+sudo apt install net-tools
+netstat -tulpn | grep 8080
+./startup.sh
+(tomcat starts at this point  ) 
+
+sudo cat /root/.jenkins/secrets/initialAdminPassword 
+
+----------- Docker install on Windows without desktop -------------
+-------- execute in PS with admin  --------------------------------
+
+curl.exe -o docker.zip -LO https://download.docker.com/win/static/stable/x86_64/docker-20.10.8.zip 
+Expand-Archive docker.zip -DestinationPath C:\
+[Environment]::SetEnvironmentVariable("Path", "$($env:path);C:\docker", [System.EnvironmentVariableTarget]::Machine)
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+dockerd --register-service
+Start-Service docker
+docker run hello-world
+
+-----------------------------------------------------------------------------------------
+----- create the docker default image on the PC (prior setting up the 
+dependecy >> Virtual Box ) ----------------------------------------------
+-------------------------------------------------------------------------------------------
+(open admin  PS )
+Docker-machine env default
+docker-machine create default
+docker-machine create -d virtualbox --virtualbox-no-vtx-check default
+
+install docker desktop (download the install file and install ) 
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+--- download source files for JAVA into a local repo directory 
+--------------------
+0. go to ADmin PS and verify that docker is running ( docker info) 
+1. go to the directory in CMD prompt
+2. docker build . -t kletn/nodeapp 
+3. docker run -it -p8000:8000 
